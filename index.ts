@@ -21,8 +21,6 @@ export const connectDatabase = async (url: string) => {
 
     try {
         await client.connect();
-        isOnline = true
-        logger('> Connected to the database', 1);
     } catch (error) {
         logger(`> Error connecting to the database: ${error}`, 2);
         throw error;
