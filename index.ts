@@ -5,9 +5,7 @@ import { logger } from "toolbx"
 export const connectDatabase = async (url: string) => {
     let isOnline: boolean = false
     logger('> Connecting to the database', 4)
-    const client = await MongoClient.connect(url);
-
-    await client.connect();
+    const client = new MongoClient(url);
 
     client.on('serverHeartbeatFailed', () => {
         logger('> Reconnecting to the database', 3);
@@ -20,6 +18,15 @@ export const connectDatabase = async (url: string) => {
         }
         isOnline = true;
     });
+
+    try {
+        await client.connect();
+        isOnline = true
+        logger('> Connected to the database', 1);
+    } catch (error) {
+        logger(`> Error connecting to the database: ${error}`, 2);
+        throw error;
+    }
 
     return client;
 }
