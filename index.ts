@@ -28,7 +28,6 @@ export const connectDatabase = async (url: string) => {
 
     return client;
 }
-
 export const connectCache = async (url: string) => {
     const client = createClient({
         url: url
@@ -37,3 +36,4 @@ export const connectCache = async (url: string) => {
     const cache = await client.connect();
     return cache
 }
+export * from './interface'
