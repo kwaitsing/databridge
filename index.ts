@@ -1,20 +1,19 @@
 import { MongoClient } from "mongodb"
 import { createClient } from "redis"
-import { logger } from "toolbx"
 
 export const connectDatabase = async (url: string) => {
     let isOnline: boolean = false
-    logger('> Connecting to the database', 4)
+    console.log('> Connecting to the database')
     const client = new MongoClient(url);
 
     client.on('serverHeartbeatFailed', () => {
-        logger('> Reconnecting to the database', 3);
+        console.log('> Reconnecting to the database');
         isOnline = false;
     });
 
     client.on('serverHeartbeatSucceeded', () => {
         if (!isOnline) {
-            logger('> Connected to the database', 1);
+            console.log('> Connected to the database');
         }
         isOnline = true;
     });
@@ -22,7 +21,7 @@ export const connectDatabase = async (url: string) => {
     try {
         await client.connect();
     } catch (error) {
-        logger(`> Error connecting to the database: ${error}`, 2);
+        console.log(`> Error connecting to the database: ${error}`);
         throw error;
     }
 
